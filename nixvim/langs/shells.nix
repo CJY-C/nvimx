@@ -10,7 +10,6 @@
     nvimx.lsp.enable = true;
     lsp.servers.bashls.enable = true;
 
-    nvimx.treesitter.enable = true;
     plugins.treesitter.grammarPackages = with config.plugins.treesitter.package.builtGrammars; [
       bash
       zsh

@@ -12,6 +12,8 @@ Nvimx exports these module/package presets:
   - `shells` - ts and lsp for `bash`, `fish`, `zsh`
   - `typst` - ts and lsp ([tinymist](https://github.com/Myriad-Dreamin/tinymist))
 
+Additionally, you can set `nvimx.treesitter.enableAllGrammars = true` to get ts for all languages without individually enabling variants.
+
 ## Usage
 1. Use a packaged presets (i.e. via `nix shell`):
 ```bash
