@@ -20,7 +20,7 @@
     ];
     nixvimModules = import ./modules.nix;
     forEachSystem = nixpkgs.lib.genAttrs systems;
-    pkgsOf = system: nixpkgs.legacyPackages.${system};
+    pkgsOf = system: import nixpkgs { inherit system; config.allowUnfree = true; };
     moduleArgs = system: (
       let 
         pkgs = pkgsOf system;
