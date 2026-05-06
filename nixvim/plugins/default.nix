@@ -5,6 +5,7 @@
     ./blink-cmp.nix
     ./flash.nix
     ./git-conflict.nix
+    ./grug-far.nix
     ./lualine.nix
     ./tabby.nix
     ./telescope.nix
