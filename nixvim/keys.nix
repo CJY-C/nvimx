@@ -24,6 +24,27 @@ _:
       options.desc = "Window or Tab: Go right";
     }
     {
+      key = "<C-Left>";
+      action = ''<cmd>lua win_move_or_tab("h")<CR>'';
+      options.desc = "Window or Tab: Go left";
+    }
+    {
+      key = "<C-Down>";
+      action = "<cmd>wincmd j<CR>";
+      options.desc = "Window: Go down";
+    }
+    {
+      key = "<C-Up>";
+      action = "<cmd>wincmd k<CR>";
+      options.desc = "Window: Go up";
+    }
+    {
+      key = "<C-Right>";
+      action = ''<cmd>lua win_move_or_tab("l")<CR>'';
+      options.desc = "Window or Tab: Go right";
+    }
+    # window/tab
+    {
       key = "<C-x>";
       action = ''<cmd>lua smartclose()<CR>'';
       options.desc = "Window or Tab: Close";
@@ -56,6 +77,12 @@ _:
       options.nowait = true;
     }
     {
+      key = "<C-x>";
+      action = "<C-\\><C-n><cmd>bdelete!<CR>"; # cant close terminal in normal mode?
+      mode = "t";
+    }
+    # terminal nav
+    {
       key = "<C-h>";
       action = "<C-\\><C-n><C-h>";
       mode = "t";
@@ -66,19 +93,56 @@ _:
       mode = "t";
     }
     {
-      key = "<C-j>";
+      key = "<C-k>";
       action = "<C-\\><C-n><C-k>";
       mode = "t";
     }
     {
-      key = "<C-j>";
+      key = "<C-l>";
       action = "<C-\\><C-n><C-l>";
       mode = "t";
     }
     {
-      key = "<C-x>";
-      action = "<C-\\><C-n><cmd>bdelete!<CR>"; # cant close terminal in normal mode?
+      key = "<C-Left>";
+      action = "<C-\\><C-n><C-h>";
       mode = "t";
+    }
+    {
+      key = "<C-Down>";
+      action = "<C-\\><C-n><C-j>";
+      mode = "t";
+    }
+    {
+      key = "<C-Up>";
+      action = "<C-\\><C-n><C-k>";
+      mode = "t";
+    }
+    {
+      key = "<C-Right>";
+      action = "<C-\\><C-n><C-l>";
+      mode = "t";
+    }
+    # editing
+    # move selected lines up/down while preserving indentation
+    {
+      key = "J";
+      action = ":m '>-2<cr>gv=gv";
+      mode = "v";
+    }
+    {
+      key = "K";
+      action = ":m '>+1<cr>gv=gv";
+      mode = "v";
+    }
+    {
+      key = "<Tab>";
+      action = "<C-t>";
+      mode = "i";
+    }
+    {
+      key = "<S-Tab>";
+      action = "<C-d>";
+      mode = "i";
     }
   ];
 
