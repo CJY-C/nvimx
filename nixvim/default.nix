@@ -9,7 +9,7 @@
 
 {
   imports = [
-    ./keys.nix
+    ./keys
     ./langs
     ./plugins
   ];
