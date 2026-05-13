@@ -11,6 +11,11 @@
     };
   };
 
+  dependencies.yazi = {
+    enable = true;
+    packageFallback = true;
+  };
+
   keymaps = [
     {
       action = "<cmd>Yazi<CR>";
