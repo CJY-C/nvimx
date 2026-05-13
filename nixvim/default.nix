@@ -43,8 +43,5 @@
 
   clipboard = {
     register = "unnamedplus"; # y, p integrate w system clipboard
-    providers = {
-      wl-copy.enable = lib.strings.hasPrefix "linux" stdenv.hostPlatform.system;
-    };
-  };
+ };
 }
