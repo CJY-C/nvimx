@@ -24,22 +24,22 @@ _:
       options.desc = "Window or Tab: Go right";
     }
     {
-      key = "<C-Left>";
+      key = "<C-left>";
       action = ''<cmd>lua win_move_or_tab("h")<CR>'';
       options.desc = "Window or Tab: Go left";
     }
     {
-      key = "<C-Down>";
+      key = "<C-down>";
       action = "<cmd>wincmd j<CR>";
       options.desc = "Window: Go down";
     }
     {
-      key = "<C-Up>";
+      key = "<C-up>";
       action = "<cmd>wincmd k<CR>";
       options.desc = "Window: Go up";
     }
     {
-      key = "<C-Right>";
+      key = "<C-right>";
       action = ''<cmd>lua win_move_or_tab("l")<CR>'';
       options.desc = "Window or Tab: Go right";
     }
@@ -103,22 +103,22 @@ _:
       mode = "t";
     }
     {
-      key = "<C-Left>";
+      key = "<C-left>";
       action = "<C-\\><C-n><C-h>";
       mode = "t";
     }
     {
-      key = "<C-Down>";
+      key = "<C-down>";
       action = "<C-\\><C-n><C-j>";
       mode = "t";
     }
     {
-      key = "<C-Up>";
+      key = "<C-up>";
       action = "<C-\\><C-n><C-k>";
       mode = "t";
     }
     {
-      key = "<C-Right>";
+      key = "<C-right>";
       action = "<C-\\><C-n><C-l>";
       mode = "t";
     }
