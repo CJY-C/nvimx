@@ -35,7 +35,10 @@
       let 
         pkgs = pkgsOf system;
       in nixvim.legacyPackages.${system}.makeNixvimWithModule {
-        module = m // { imports = (m.imports or []) ++ [ ./nixvim ]; };
+        module = [
+          m
+          (import ./nvimx)
+        ];
         extraSpecialArgs = moduleArgs system;
         inherit pkgs;
       };

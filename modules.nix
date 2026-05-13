@@ -1,6 +1,6 @@
 rec {
   default = { 
-    imports = [ ./nixvim ];
+    imports = [ ./nvimx ];
   };
   base = default;
   configs = base // {
