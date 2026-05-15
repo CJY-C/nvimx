@@ -12,7 +12,7 @@
     };
   };
 
-  outputs = { nixpkgs, nixvim, ... }@inputs: let
+  outputs = { self, nixpkgs, nixvim, ... }@inputs: let
     systems = [
       "x86_64-linux"
       "aarch64-linux"
@@ -29,7 +29,7 @@
         inherit (pkgs) stdenv;
       }
     );
-  in rec {
+  in {
     inherit nixvimModules;
     makeNixvimWithModule = system: m:
       let 
@@ -42,10 +42,17 @@
         extraSpecialArgs = moduleArgs system;
         inherit pkgs;
       };
+    
+    apps = forEachSystem (system: let 
+        lib = (pkgsOf system).lib;
+      in lib.mapAttrs (_: pkg: {
+        type = "app";
+        program = "${pkg}/bin/nvim";
+      }) self.packages.${system});
 
     packages = forEachSystem (system: let 
         pkgs = pkgsOf system;
-      in pkgs.lib.mapAttrs (_: makeNixvimWithModule system) nixvimModules);
+      in pkgs.lib.mapAttrs (_: self.makeNixvimWithModule system) nixvimModules);
 
     devShells = forEachSystem (system: let
       pkgs = pkgsOf system;
@@ -58,7 +65,7 @@
             flakeInputs.nixvim = "nixvimConfigurations.${system}.default";
           };
         };
-        nixvimPkg = makeNixvimWithModule system nixvimModule;
+        nixvimPkg = self.makeNixvimWithModule system nixvimModule;
       in {
         packages = [ nixvimPkg ];
       });

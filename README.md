@@ -15,9 +15,15 @@ Nvimx exports these module/package presets:
 Additionally, you can set `nvimx.treesitter.enableAllGrammars = true` to get ts for all languages without individually enabling variants.
 
 ## Usage
-1. Use a packaged presets (i.e. via `nix shell`):
+1. Use a packaged presets (i.e. via `nix run`):
 ```bash
-nix shell github:allen-liaoo/nvimx#{preset}
+nix run github:allen-liaoo/nvimx#{preset}
+```
+For the default preset, you can omit `#default`. 
+
+You may need to enable experimental features by passing in this environment variable:
+```
+NIX_CONFIG="extra-experimental-featues = nix-command flakes pipe-operators"
 ```
 
 2. Construct a module in a flake (i.e. in `devShells`).
