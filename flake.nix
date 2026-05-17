@@ -25,7 +25,7 @@
       let 
         pkgs = pkgsOf system;
       in {
-        inherit pkgs nixvim system inputs;
+        inherit nixvim system inputs;
         inherit (pkgs) stdenv;
       }
     );
@@ -38,8 +38,8 @@
         module = [
           m
           (import ./nvimx)
+          { _module.args = moduleArgs system; }
         ];
-        extraSpecialArgs = moduleArgs system;
         inherit pkgs;
       };
     

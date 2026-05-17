@@ -49,10 +49,11 @@ config = lib.mkIf (config.nvimx.nix.enable) {
           q = "\\\""; # nix's quote ("), escaped in lua (\"), escaped in nix
           flakeExpr = "(builtins.getFlake ${q}\' .. find_flake_dir() .. \'${q})"; # see lsp.luaConfig below
           # user supplied values may contain special characters, need escaping to use as attr path (in nix)
-          escape = path: path
-            |> lib.splitString "."
-            |> map (s: q + s + q)
-            |> builtins.concatStringsSep ".";
+          escape = path: lib.pipe path [
+            lib.splitString "."
+            (map (s: q + s + q))
+            (builtins.concatStringsSep ".")
+          ];
         in with config.nvimx.nix.nixd; {
           diagnostic.suppress = [ "sema-extra-with" ];
 
