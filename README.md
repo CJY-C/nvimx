@@ -8,6 +8,7 @@ Nvimx exports these module/package presets:
 - `default`/`base` - Base Neovim instance, contains all plugins, no language support. All other presets automatically includes this base.
 - Languages (ts = treesitter):
   - `configs` - ts for `ini`, `json`, `kdl`, `yaml`, `toml`
+  - `latex` - ts & lsp ([texlab](https://github.com/latex-lsp/texlab))
   - `nix` - ts & lsp ([nixd](https://github.com/nix-community/nixd/))
   - `shells` - ts and lsp for `bash`, `fish`, `zsh`
   - `typst` - ts and lsp ([tinymist](https://github.com/Myriad-Dreamin/tinymist))

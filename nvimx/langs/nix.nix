@@ -7,7 +7,7 @@
 
 {
   options = {
-    nvimx.nix = {
+    nvimx.preset.nix = {
       enable = lib.mkEnableOption "nix";
 
       nixd = {
@@ -38,7 +38,7 @@
     };
   };
 
-config = lib.mkIf (config.nvimx.nix.enable) {
+config = lib.mkIf (config.nvimx.preset.nix.enable) {
     nvimx.lsp.enable = true;
 
     lsp.servers.nixd = {
@@ -50,11 +50,11 @@ config = lib.mkIf (config.nvimx.nix.enable) {
           flakeExpr = "(builtins.getFlake ${q}\' .. find_flake_dir() .. \'${q})"; # see lsp.luaConfig below
           # user supplied values may contain special characters, need escaping to use as attr path (in nix)
           escape = path: lib.pipe path [
-            lib.splitString "."
+            (lib.splitString ".")
             (map (s: q + s + q))
             (builtins.concatStringsSep ".")
           ];
-        in with config.nvimx.nix.nixd; {
+        in with config.nvimx.preset.nix.nixd; {
           diagnostic.suppress = [ "sema-extra-with" ];
 
         # Tell nixd where to lookup module options and pkgs

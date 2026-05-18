@@ -13,13 +13,8 @@
   };
 
   outputs = { self, nixpkgs, nixvim, ... }@inputs: let
-    systems = [
-      "x86_64-linux"
-      "aarch64-linux"
-      "aarch64-darwin"
-    ];
-    nixvimModules = import ./modules.nix;
-    forEachSystem = nixpkgs.lib.genAttrs systems;
+    nixvimModules = import ./presets.nix;
+    forAllSystems = with nixpkgs.lib; genAttrs platforms.all;
     pkgsOf = system: import nixpkgs { inherit system; config.allowUnfree = true; };
     moduleArgs = system: (
       let 
@@ -43,24 +38,24 @@
         inherit pkgs;
       };
     
-    apps = forEachSystem (system: let 
+    apps = forAllSystems (system: let 
         lib = (pkgsOf system).lib;
       in lib.mapAttrs (_: pkg: {
         type = "app";
         program = "${pkg}/bin/nvim";
       }) self.packages.${system});
 
-    packages = forEachSystem (system: let 
+    packages = forAllSystems (system: let 
         pkgs = pkgsOf system;
       in pkgs.lib.mapAttrs (_: self.makeNixvimWithModule system) nixvimModules);
 
-    devShells = forEachSystem (system: let
+    devShells = forAllSystems (system: let
       pkgs = pkgsOf system;
     in {
       default = pkgs.mkShell (let
         nixvimModule = {
-          nvimx.nix.enable = true;
-          nvimx.nix.nixd = { # enable lsp to lookup of nixvim options
+          nvimx.preset.nix.enable = true;
+          nvimx.preset.nix.nixd = { # enable lsp to lookup of nixvim options
             nixpkgsName = "nixpkgs";
             flakeInputs.nixvim = "nixvimConfigurations.${system}.default";
           };

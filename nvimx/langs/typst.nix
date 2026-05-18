@@ -5,8 +5,8 @@
 }:
 
 {
-  options.nvimx.typst.enable = lib.mkEnableOption "typst";
-  config = lib.mkIf (config.nvimx.typst.enable) {
+  options.nvimx.preset.typst.enable = lib.mkEnableOption "typst";
+  config = lib.mkIf (config.nvimx.preset.typst.enable) {
     nvimx.lsp.enable = true;
 
     lsp.servers.tinymist = {
