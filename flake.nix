@@ -1,5 +1,10 @@
 {
+  description = "Project-based, modular Neovim configuration via NixVim.";
   inputs = {
+    # aln-packages = {
+    #   url = "github:allen-liaoo/nix-packages";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixvim.url = "github:nix-community/nixvim"; # Dont follow nixpkgs; see: https://nix-community.github.io/nixvim/user-guide/faq.html#how-do-i-solve-name-cannot-be-found-in-pkgs
     tabby = {

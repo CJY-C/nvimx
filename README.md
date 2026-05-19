@@ -16,19 +16,19 @@ Nvimx exports these module/package presets:
 Additionally, you can set `nvimx.treesitter.enableAllGrammars = true` to get ts for all languages without individually enabling variants.
 
 ## Usage
-1. Use a packaged presets (i.e. via `nix run`):
+1. Run directly:
 ```bash
-nix run github:allen-liaoo/nvimx#{preset}
+nix run github:allen-liaoo/nvimx
 ```
-For the default preset, you can omit `#default`. 
+You can run a preset by appending `#{preset}`.
 
 You may need to enable experimental features by passing in this environment variable:
 ```
-NIX_CONFIG="extra-experimental-featues = nix-command flakes pipe-operators"
+NIX_CONFIG="extra-experimental-featues = nix-command flakes"
 ```
 
 2. Construct a module in a flake (i.e. in `devShells`).
-Nvimx flake outputs `makeNixvimWithModule (system: nixvimModule: ...)` to be used in this case. Presents have options under `nvimx.${preset}`, and need to be opted in with `nvimx.${preset}.enable = true`.
+Nvimx flake outputs `makeNixvimWithModule (system: nixvimModule: ...)` to be used in this case. Presents have options under `nvimx.preset.${preset}`, and need to be opted in with `nvimx.preset.${preset}.enable = true`.
 ```nix
 {
   inputs = {
@@ -47,7 +47,7 @@ Nvimx flake outputs `makeNixvimWithModule (system: nixvimModule: ...)` to be use
     in ${system}.default = pkgs.mkShell (let
       nixvimModule = {
         # enable the presets you want to use
-        nvimx.typst.enable = true;
+        nvimx.preset.typst.enable = true;
 
         # or add custom nixvim or nvimx options here
         plugins.xyz.enable = true;
