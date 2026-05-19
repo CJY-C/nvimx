@@ -10,8 +10,8 @@
 {
   imports = [
     ./keys
-    ./langs
     ./plugins
+    ./presets
   ];
   enableMan = false;
 
