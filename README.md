@@ -28,17 +28,9 @@ NIX_CONFIG="extra-experimental-featues = nix-command flakes"
 ```
 
 2. Construct a module in a flake (i.e. in `devShells`).
-Nvimx flake outputs `makeNixvimWithModule (system: nixvimModule: ...)` to be used in this case. Presents have options under `nvimx.preset.${preset}`, and need to be opted in with `nvimx.preset.${preset}.enable = true`.
+Nvimx flake outputs `makeNvimxWithModule (system: nvimxModule: ...)` to be used in this case. Presents have options under `nvimx.preset.${preset}`, and need to be opted in with `nvimx.preset.${preset}.enable = true`.
 ```nix
 {
-  inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nvimx = {
-      url = "github:allen-liaoo/nvimx";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-  };
-
   outputs = { self, nixpkgs, nixvim }: let
   in {
     devShells = let 
@@ -52,10 +44,18 @@ Nvimx flake outputs `makeNixvimWithModule (system: nixvimModule: ...)` to be use
         # or add custom nixvim or nvimx options here
         plugins.xyz.enable = true;
       };
-      nixvimPkg = nvimx.makeNixvimWithModule system nixvimModule; # package it!
+      nixvimPkg = nvimx.makeNvimxWithModule system nixvimModule; # package it!
     in {
       packages = [ nixvimPkg ];
     });
+  };
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nvimx = {
+      url = "github:allen-liaoo/nvimx";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 }
 ```

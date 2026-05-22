@@ -1,10 +1,6 @@
 {
   description = "Project-based, modular Neovim configuration via NixVim.";
   inputs = {
-    # aln-packages = {
-    #   url = "github:allen-liaoo/nix-packages";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixvim.url = "github:nix-community/nixvim"; # Dont follow nixpkgs; see: https://nix-community.github.io/nixvim/user-guide/faq.html#how-do-i-solve-name-cannot-be-found-in-pkgs
     tabby = {
@@ -31,28 +27,23 @@
     );
   in {
     inherit nixvimModules;
-    makeNixvimWithModule = system: m:
-      let 
+    makeNvimxWithModule = system: m:
+      nixvim.legacyPackages.${system}.makeNixvimWithModule {
         pkgs = pkgsOf system;
-      in nixvim.legacyPackages.${system}.makeNixvimWithModule {
         module = [
           m
           (import ./nvimx)
           { _module.args = moduleArgs system; }
         ];
-        inherit pkgs;
       };
     
-    apps = forAllSystems (system: let 
-        lib = (pkgsOf system).lib;
-      in lib.mapAttrs (_: pkg: {
+    apps = forAllSystems (system: nixpkgs.lib.mapAttrs (_: pkg: {
         type = "app";
         program = "${pkg}/bin/nvim";
       }) self.packages.${system});
 
-    packages = forAllSystems (system: let 
-        pkgs = pkgsOf system;
-      in pkgs.lib.mapAttrs (_: self.makeNixvimWithModule system) nixvimModules);
+    packages = forAllSystems (system: 
+      nixpkgs.lib.mapAttrs (_: self.makeNvimxWithModule system) nixvimModules);
 
     devShells = forAllSystems (system: let
       pkgs = pkgsOf system;
@@ -65,7 +56,7 @@
             flakeInputs.nixvim = "nixvimConfigurations.${system}.default";
           };
         };
-        nixvimPkg = self.makeNixvimWithModule system nixvimModule;
+        nixvimPkg = self.makeNvimxWithModule system nixvimModule;
       in {
         packages = [ nixvimPkg ];
       });
