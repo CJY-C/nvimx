@@ -12,6 +12,9 @@
     ./keys
     ./plugins
     ./presets
+
+    ./lsp.nix
+    ./treesitter.nix
   ];
   enableMan = false;
 
