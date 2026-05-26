@@ -1,8 +1,11 @@
 {
   description = "Project-based, modular Neovim configuration via NixVim.";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    nixvim.url = "github:nix-community/nixvim"; # Dont follow nixpkgs; see: https://nix-community.github.io/nixvim/user-guide/faq.html#how-do-i-solve-name-cannot-be-found-in-pkgs
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixvim = {
+      url = "github:nix-community/nixvim"; # Dont follow nixpkgs; see: https://nix-community.github.io/nixvim/user-guide/faq.html#how-do-i-solve-name-cannot-be-found-in-pkgs
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     tabby = {
       url = "github:nanozuki/tabby.nvim";
       flake = false;
