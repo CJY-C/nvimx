@@ -45,6 +45,6 @@
   };
 
   clipboard = {
-    register = "unnamedplus"; # y, p integrate w system clipboard
- };
+    # register = "unnamedplus"; # manually write yank to system clipboard (and ignore delete ops)
+  };
 }

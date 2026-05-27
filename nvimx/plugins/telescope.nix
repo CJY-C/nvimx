@@ -26,17 +26,18 @@
         action = "grep_string";
         options.desc = "Telescope: Find in file";
       };
-
       "<leader><leader>" = {
         action = "buffers";
         options.desc = "Telescope: Find buffers";
       };
-
+      "<leader>fd" = {
+        action = "diagnostics";
+        options.desc = "Telescope: Find LSP diagnostics";
+      };
       "<leader>fc" = {
         action = "commands";
         options.desc = "Telescope: Find commands";
       };
-
       "<leader>fk" = {
         action = "keymaps";
         options.desc = "Telescope: Find keymaps";
