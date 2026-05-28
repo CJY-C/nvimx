@@ -1,5 +1,4 @@
 {
-  nixvim,
   ...
 }:
 
@@ -9,6 +8,7 @@
     settings = {
       options = {
         globalstatus = true; # one status line at the bottom
+        always_show_tabline = false;
       };
       sections = {
         lualine_a = [
@@ -40,6 +40,14 @@
         lualine_x = [ "progress" "filetype" ];
         lualine_y = [ "diagnostics" ];
         lualine_z = [ "lsp_status" ];
+      };
+      tabline = {
+        lualine_a = [{
+          __unkeyed-1 = "tabs";
+          mode = 2; # number + name
+          max_length.__raw = "vim.o.columns * 1.2"; # set it higher to fill width
+          use_mode_colors = true;
+        }];
       };
     };
 

@@ -7,7 +7,6 @@
     ./git-conflict.nix
     ./grug-far.nix
     ./lualine.nix
-    ./tabby.nix
     ./telescope.nix
     ./winresize.nix
     ./yazi.nix
