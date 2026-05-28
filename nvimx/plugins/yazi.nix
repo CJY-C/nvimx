@@ -20,7 +20,7 @@
     {
       action = "<cmd>Yazi<CR>";
       key = "<leader>]";
-      mode = [ "n" "i" "x" "s" ];
+      mode = [ "n" ]; # for some reason this cmd doesnt work in visual mode
       options.desc = "Yazi: Open files";
     }
   ];
