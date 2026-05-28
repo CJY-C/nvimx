@@ -41,6 +41,16 @@
       action = ''<cmd>lua win_move_or_tab("l")<CR>'';
       options.desc = "Window or Tab: Go right";
     }
+    {
+      key = "<C-S-H>";
+      action = "<cmd>tabprevious<CR>";
+      options.desc = "Tab: Go left";
+    }
+    {
+      key = "<C-S-L>";
+      action = "<cmd>tabnext<CR>";
+      options.desc = "Tab: Go right";
+    }
     # window/tab
     {
       key = "<C-x>";

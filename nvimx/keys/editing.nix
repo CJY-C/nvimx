@@ -44,7 +44,7 @@
       action = "<gv";
       mode = "v";
     }
-    # shift+tab uses backspace in insert mdo
+    # shift+tab uses backspace in insert mode
     {
       key = "<S-Tab>";
       action = "<BS>"; # backspace
