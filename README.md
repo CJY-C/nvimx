@@ -9,7 +9,11 @@ Nvimx exports these module/package presets:
 - Languages (ts = treesitter):
   - `configs` - ts for `ini`, `json`, `kdl`, `yaml`, `toml`
   - `latex` - ts & lsp ([texlab](https://github.com/latex-lsp/texlab))
+  - `lua` - ts & lsp ([lua-language-server](https://github.com/LuaLS/lua-language-server))
+  - `markdown` - ts & lsp ([marksman](https://github.com/artempyanykh/marksman))
   - `nix` - ts & lsp ([nixd](https://github.com/nix-community/nixd/))
+  - `python` - ts & lsp ([pyright](https://github.com/microsoft/pyright))
+  - `rust` - ts & lsp ([rust-analyzer](https://github.com/rust-lang/rust-analyzer))
   - `shells` - ts and lsp for `bash`, `fish`, `zsh`
   - `typst` - ts and lsp ([tinymist](https://github.com/Myriad-Dreamin/tinymist))
 
@@ -28,7 +32,7 @@ NIX_CONFIG="extra-experimental-featues = nix-command flakes"
 ```
 
 2. Construct a module in a flake (i.e. in `devShells`).
-Nvimx flake outputs `makeNvimxWithModule (system: nvimxModule: ...)` to be used in this case. Presents have options under `nvimx.preset.${preset}`, and need to be opted in with `nvimx.preset.${preset}.enable = true`.
+Nvimx flake outputs `makeNvimxWithModule (system: nvimxModule: ...)` to be used in this case. Presets have options under `nvimx.preset.${preset}`, and need to be opted in with `nvimx.preset.${preset}.enable = true`.
 ```nix
 {
   outputs = { self, nixpkgs, nixvim }: let

@@ -24,16 +24,20 @@
     ];
 
     # remove treesitter indent as it conflicts with neovim builtin (indent/tex.vim)
-    autoCmd = [{
-      desc = "disables treesitter autoindent for latex";
-      event = "FileType";
-      pattern = "tex";
-      # runs after the treesitter * autocmd
-      callback = { __raw = ''
-        function(args)
-          vim.bo[args.buf].indentexpr = "GetTeXIndent()"
-        end
-      '';};
-    }];
+    autoCmd = [
+      {
+        desc = "disables treesitter autoindent for latex";
+        event = "FileType";
+        pattern = "tex";
+        # runs after the treesitter * autocmd
+        callback = {
+          __raw = ''
+            function(args)
+              vim.bo[args.buf].indentexpr = "GetTeXIndent()"
+            end
+          '';
+        };
+      }
+    ];
   };
 }

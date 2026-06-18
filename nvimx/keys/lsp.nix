@@ -43,9 +43,9 @@
       mode = "n";
     }
     {
-      key = "gls";
+      key = "glh";
       lspBufAction = "signature_help";
-      options.desc = "LSP: Code actions";
+      options.desc = "LSP: Signature help";
       mode = "n";
     }
     {

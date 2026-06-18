@@ -8,10 +8,15 @@ _:
     };
   };
   keymaps = [
-    { # search with jump labels
+    {
+      # search with jump labels
       action = "<cmd>lua (function() require('flash').jump() end)()<CR>";
       key = "s";
-      mode = [ "n" "x" "o" ];
+      mode = [
+        "n"
+        "x"
+        "o"
+      ];
       options.desc = "Flash jump";
     }
   ];

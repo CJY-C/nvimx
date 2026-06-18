@@ -12,12 +12,15 @@
       };
       sections = {
         lualine_a = [
-          "mode" 
+          "mode"
         ];
         lualine_b = [
           {
             __unkeyed-1 = "b:gitsigns_head";
-            icon = { __unkeyed-1 = ""; align = "right"; };
+            icon = {
+              __unkeyed-1 = "";
+              align = "right";
+            };
           }
           # use gitsigns branch and diff
           {
@@ -27,7 +30,7 @@
         ];
         lualine_c = [
           {
-            __unkeyed-1 = "filename"; 
+            __unkeyed-1 = "filename";
             symbols = {
               modified = "[+]";
               readonly = "[-]";
@@ -37,17 +40,22 @@
             path = 1;
           }
         ];
-        lualine_x = [ "progress" "filetype" ];
+        lualine_x = [
+          "progress"
+          "filetype"
+        ];
         lualine_y = [ "diagnostics" ];
         lualine_z = [ "lsp_status" ];
       };
       tabline = {
-        lualine_a = [{
-          __unkeyed-1 = "tabs";
-          mode = 2; # number + name
-          max_length.__raw = "vim.o.columns * 1.2"; # set it higher to fill width
-          use_mode_colors = true;
-        }];
+        lualine_a = [
+          {
+            __unkeyed-1 = "tabs";
+            mode = 2; # number + name
+            max_length.__raw = "vim.o.columns * 1.2"; # set it higher to fill width
+            use_mode_colors = true;
+          }
+        ];
       };
     };
 

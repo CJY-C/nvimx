@@ -4,21 +4,30 @@
     {
       key = "y";
       action = ''v:lua.clipboard_or_default("y")'';
-      mode = [ "n" "x" ]; 
+      mode = [
+        "n"
+        "x"
+      ];
       options.noremap = true;
       options.expr = true;
     }
     {
       key = "Y";
       action = ''v:lua.clipboard_or_default("Y")'';
-      mode = [ "n" "x" ];
+      mode = [
+        "n"
+        "x"
+      ];
       options.noremap = true;
       options.expr = true;
     }
     {
       key = "p";
       action = ''v:lua.clipboard_or_default("p")'';
-      mode = [ "n" "x" ]; 
+      mode = [
+        "n"
+        "x"
+      ];
       options.noremap = true;
       options.expr = true;
     }

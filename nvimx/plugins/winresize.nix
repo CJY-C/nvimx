@@ -5,10 +5,12 @@
 }:
 
 {
-  extraPlugins = [(pkgs.vimUtils.buildVimPlugin {
-    name = "winresize";
-    src = inputs.winresize;
-  })];
+  extraPlugins = [
+    (pkgs.vimUtils.buildVimPlugin {
+      name = "winresize";
+      src = inputs.winresize;
+    })
+  ];
 
   keymaps = [
     {

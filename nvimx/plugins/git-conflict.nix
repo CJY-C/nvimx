@@ -5,9 +5,11 @@ _:
     enable = true;
   };
 
-  keymaps = [{
-    action = "<cmd>GitConflictListQf<CR>";
-    key = "<leader>gc";
-    options.desc = "Git: List merge conflicts";
-  }];
+  keymaps = [
+    {
+      action = "<cmd>GitConflictListQf<CR>";
+      key = "<leader>gc";
+      options.desc = "Git: List merge conflicts";
+    }
+  ];
 }
