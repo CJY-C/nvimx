@@ -21,6 +21,23 @@
         "type": "github"
       }
     },
+    "memos-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1781834851,
+        "narHash": "sha256-HaemLGyZKUAFIbkbyuntJOkQggv32hep8jLeffu+fvE=",
+        "owner": "CJY-C",
+        "repo": "memos.nvim",
+        "rev": "8a6b8aa9cc6976b6dedf37b76d6d034c23da57c2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "CJY-C",
+        "ref": "refactor-latest-api-core",
+        "repo": "memos.nvim",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1779560665,
@@ -61,6 +78,7 @@
     },
     "root": {
       "inputs": {
+        "memos-nvim": "memos-nvim",
         "nixpkgs": "nixpkgs",
         "nixvim": "nixvim",
         "winresize": "winresize"

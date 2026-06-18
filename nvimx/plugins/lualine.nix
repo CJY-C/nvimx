@@ -1,4 +1,6 @@
 {
+  config,
+  lib,
   ...
 }:
 
@@ -43,7 +45,14 @@
         lualine_x = [
           "progress"
           "filetype"
-        ];
+        ]
+        ++ lib.optional (config.nvimx.memos.enable or false) {
+          __raw = ''
+            function()
+              return require("memos").statusline()
+            end
+          '';
+        };
         lualine_y = [ "diagnostics" ];
         lualine_z = [ "lsp_status" ];
       };

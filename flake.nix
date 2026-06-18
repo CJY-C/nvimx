@@ -10,6 +10,10 @@
       url = "github:pogyomo/winresize.nvim";
       flake = false;
     };
+    memos-nvim = {
+      url = "github:CJY-C/memos.nvim/refactor-latest-api-core";
+      flake = false;
+    };
   };
 
   outputs =
