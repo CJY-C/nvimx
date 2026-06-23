@@ -9,7 +9,7 @@
     ./lualine.nix
     ./memos.nix
     ./telescope.nix
-    ./winresize.nix
+    # ./winresize.nix
     ./yazi.nix
   ];
 

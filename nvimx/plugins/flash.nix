@@ -11,7 +11,7 @@ _:
     {
       # search with jump labels
       action = "<cmd>lua (function() require('flash').jump() end)()<CR>";
-      key = "s";
+      key = "<leader>s";
       mode = [
         "n"
         "x"
