@@ -3,6 +3,7 @@
 {
   imports = [
     ./blink-cmp.nix
+    ./conform.nix
     ./flash.nix
     ./git-conflict.nix
     ./grug-far.nix
