@@ -9,14 +9,11 @@
   config = lib.mkIf (config.nvimx.preset.typst.enable) {
     nvimx.lsp.enable = true;
 
-    lsp.servers.tinymist = {
+    plugins.lsp.servers.tinymist = {
       enable = true;
-      activate = true;
-      config = {
-        settings = {
-          outputPath = lib.mkDefault "$root/$dir/$name";
-          exportPdf = lib.mkDefault "onType";
-        };
+      settings = {
+        outputPath = lib.mkDefault "$root/$dir/$name";
+        exportPdf = lib.mkDefault "onType";
       };
     };
 

@@ -2,6 +2,7 @@
   lib,
   system,
   config,
+  pkgs,
   ...
 }:
 
@@ -27,6 +28,11 @@
           description = "Name of homeConfigurations key in the flake, used for looking up Home Manager options. Only set this if using HM standalone.";
           default = "";
         };
+        nixvimPackage = lib.mkOption {
+          type = lib.types.str;
+          description = "Name of nixvim package key in the flake, used for looking up Nixvim options.";
+          default = "";
+        };
         flakeInputs = lib.mkOption {
           type = lib.types.attrsOf lib.types.str;
           description = ''
@@ -42,11 +48,10 @@
   config = lib.mkIf (config.nvimx.preset.nix.enable) {
     nvimx.lsp.enable = true;
 
-    lsp.servers.nixd = {
+    plugins.lsp.servers.nixd = {
       enable = true;
-      activate = true;
-      config = {
-        settings.nixd =
+      settings = {
+        nixd =
           let
             q = "\\\""; # nix's quote ("), escaped in lua (\"), escaped in nix
             flakeExpr = "(builtins.getFlake ${q}\' .. find_flake_dir() .. \'${q})"; # see lsp.luaConfig below
@@ -62,6 +67,7 @@
           with config.nvimx.preset.nix.nixd;
           {
             diagnostic.suppress = [ "sema-extra-with" ];
+            formatting.command = [ "nixfmt" ];
 
             # Tell nixd where to lookup module options and pkgs
             # by providing nix exprs (in lua) that gets the options/pkgs from the flake
@@ -91,7 +97,10 @@
                     "nixos" = "${flakeExpr}.nixosConfigurations.${escape nixosConfKey}.options";
                   }
                   // lib.optionalAttrs (hmConfKey != "") {
-                    "home-manager]" = "${flakeExpr}.homeConfigurations.${escape hmConfKey}.options";
+                    "home-manager" = "${flakeExpr}.homeConfigurations.${escape hmConfKey}.options";
+                  }
+                  // lib.optionalAttrs (nixvimPackage != "") {
+                    "nixvim" = "${flakeExpr}.packages.${system}.${escape nixvimPackage}.options";
                   }
                   // lib.mapAttrs (
                     input: path: "${flakeExpr}.inputs.${escape input}.${escape path}.options"
@@ -100,6 +109,10 @@
           };
       };
     };
+
+    extraPackages = with pkgs; [
+      nixfmt
+    ];
 
     lsp.luaConfig.pre = ''
       -- search up the path for flake directory, falllback to cwd

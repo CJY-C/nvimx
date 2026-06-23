@@ -10,9 +10,10 @@
   config = lib.mkIf (config.nvimx.preset.rust.enable) {
     nvimx.lsp.enable = true;
 
-    lsp.servers.rust_analyzer = {
+    plugins.lsp.servers.rust_analyzer = {
       enable = true;
-      activate = true;
+      installCargo = false;
+      installRustc = false;
     };
 
     plugins.treesitter.grammarPackages = with config.plugins.treesitter.package.builtGrammars; [
