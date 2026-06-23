@@ -1,15 +1,7 @@
-_:
+{ lib, ... }:
 
 {
-  imports = [
-    ./configs.nix
-    ./latex.nix
-    ./lua.nix
-    ./markdown.nix
-    ./nix.nix
-    ./python.nix
-    ./rust.nix
-    ./shells.nix
-    ./typst.nix
-  ];
+  imports = lib.mapAttrsToList (name: _: ./. + "/${name}") (
+    lib.filterAttrs (name: type: name != "default.nix" && (type == "regular" || type == "directory")) (builtins.readDir ./.)
+  );
 }
