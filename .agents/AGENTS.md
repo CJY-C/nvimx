@@ -18,4 +18,4 @@ These rules govern the behavior and coding standards for all agentic AI assistan
 - **Rationale**: Prevents committing code that fails to evaluate in the Nix module system.
 
 ## 4. Documentation Maintenance
-- **Rule**: When introducing new presets, modifying project structure, or altering standard keymaps, update the corresponding markdown file in the `docs/` folder to maintain documentation integrity.
+- **Rule**: After every code change, evaluate whether documentation needs to be updated. When introducing new presets, modifying project structure, or altering standard keymaps, update the corresponding markdown file in the `docs/` folder to maintain documentation integrity.
