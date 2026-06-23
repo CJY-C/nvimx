@@ -7,7 +7,13 @@
     enable = true;
     extensions = {
       fzf-native.enable = true;
-      ui-select.enable = true;
+      ui-select = {
+        enable = true;
+        settings = {
+          # 使用 raw lua 传入 telescope.themes 的配置
+          __raw = "require('telescope.themes').get_dropdown{}";
+        };
+      };
     };
 
     settings = {
