@@ -83,10 +83,16 @@ These presets are compiled into separate packages (e.g. `packages.x86_64-linux.r
 `nvimx` exposes a public helper function `lib.makeNvimx` in `flake.nix` so that other flakes (e.g., your system/home-manager configuration flake) can import `nvimx` and build customized Neovim packages dynamically.
 
 ### Helper Function Signature
-`lib.makeNvimx` takes the target `system` and a custom Nixvim module, merges it with the core `nvimx` module, and compiles it:
-```nix
-makeNvimx = system: nixvimModule: ...
-```
+`lib.makeNvimx` supports two invocation styles:
+
+1. **Attribute Set Signature (Recommended)**: Accepts an attribute set to optionally inject a custom `pkgs` (e.g., with system overlays) or custom Nixvim `module` list:
+   ```nix
+   makeNvimx = { system, pkgs ? pkgsOf system, module ? [] }: ...
+   ```
+2. **Positional Signature (Backward Compatible)**: Takes the target `system` and a custom Nixvim module, compiling it immediately:
+   ```nix
+   makeNvimx = system: nixvimModule: ...
+   ```
 
 ### Usage Example in a System Flake
 You can integrate `nvimx` into your system flake's outputs like this:
@@ -98,14 +104,18 @@ You can integrate `nvimx` into your system flake's outputs like this:
   };
 
   outputs = { self, nixpkgs, nvimx, ... }: {
-    # Build a custom package for a specific system
-    packages.x86_64-linux.my-neovim = nvimx.lib.makeNvimx "x86_64-linux" {
-      # Enable specific presets
-      nvimx.preset.rust.enable = true;
-      nvimx.preset.nix.enable = true;
+    # Build a custom package for a specific system using the recommended attribute set signature
+    packages.x86_64-linux.my-neovim = nvimx.lib.makeNvimx {
+      system = "x86_64-linux";
+      # pkgs = nixpkgs.legacyPackages.x86_64-linux; # optional: inject custom pkgs
+      module = {
+        # Enable specific presets
+        nvimx.preset.rust.enable = true;
+        nvimx.preset.nix.enable = true;
 
-      # Inject other custom Nixvim configuration here
-      opts.relativenumber = false;
+        # Inject other custom Nixvim configuration here
+        opts.relativenumber = false;
+      };
     };
   };
 }
@@ -119,4 +129,4 @@ LSP integration is built on two highly mature, stable plugins:
 1. **`plugins.lsp` (nvim-lspconfig)**: Provides the standard interface to configure language servers.
 2. **`plugins.blink-cmp`**: A modern, high-performance completion engine written in Rust. It hooks into the LSP client to provide fast, fuzzy-completion popups.
 
-A custom autocommand in `nvimx/lsp.nix` automatically hooks into Neovim's `LspAttach` event, registering automatic format-on-save for any LSP client that supports formatting (e.g. `nixd` using `nixfmt`).
+Instead of hardcoding formatting logic in Neovim's LSP autocommands, formatting is handled by the mature `plugins.conform-nvim` module. Language presets map their formatting backends (e.g., `nixfmt` for Nix) straight into `conform-nvim`'s config, falling back to standard LSP formatting if none are defined. Additionally, automatic format-on-save can be disabled globally or overridden on a per-preset basis using the `nvimx.lsp.formatOnSave` option.
