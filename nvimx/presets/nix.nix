@@ -67,7 +67,6 @@
           with config.nvimx.preset.nix.nixd;
           {
             diagnostic.suppress = [ "sema-extra-with" ];
-            formatting.command = [ "nixfmt" ];
 
             # Tell nixd where to lookup module options and pkgs
             # by providing nix exprs (in lua) that gets the options/pkgs from the flake
@@ -131,6 +130,8 @@
     plugins.treesitter.grammarPackages = with config.plugins.treesitter.package.builtGrammars; [
       nix
     ];
+
+    plugins.conform-nvim.settings.formatters_by_ft.nix = [ "nixfmt" ];
   };
 }
 
