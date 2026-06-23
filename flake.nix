@@ -24,7 +24,7 @@
       ...
     }@inputs:
     let
-      nixvimModules = import ./presets.nix;
+      nixvimModules = import ./presets.nix nixpkgs.lib;
       supportedSystems = [
         "x86_64-linux"
         "aarch64-linux"
@@ -52,16 +52,20 @@
     in
     {
       inherit nixvimModules;
-      makeNvimxWithModule =
-        system: m:
-        nixvim.legacyPackages.${system}.makeNixvimWithModule {
-          pkgs = pkgsOf system;
-          module = [
-            m
-            (import ./nvimx)
-            { _module.args = moduleArgs system; }
-          ];
-        };
+      lib = {
+        # Expose a helper to build custom Neovim packages from other flakes
+        makeNvimx = system: nixvimModule:
+          nixvim.legacyPackages.${system}.makeNixvimWithModule {
+            pkgs = pkgsOf system;
+            module = [
+              nixvimModule
+              (import ./nvimx)
+              { _module.args = moduleArgs system; }
+            ];
+          };
+      };
+
+      makeNvimxWithModule = system: m: self.lib.makeNvimx system m;
 
       apps = forAllSystems (
         system:
@@ -112,7 +116,7 @@
                 nvimx.preset.nix.nixd = {
                   # enable lsp to lookup of nixvim options
                   nixpkgsName = "nixpkgs";
-                  flakeInputs.nixvim = "nixvimConfigurations.${system}.default";
+                  nixvimPackage = "default";
                 };
               };
               nixvimPkg = self.makeNvimxWithModule system nixvimModule;

@@ -1,36 +1,26 @@
+lib:
 let
   base = {
     imports = [ ./nvimx ];
+  };
+  # Helper to generate a preset package configuration enabling a list of presets
+  mkPreset = presets: base // {
+    nvimx.preset = lib.genAttrs presets (name: { enable = true; });
   };
 in
 {
   default = base;
   base = base;
-  configs = base // {
-    nvimx.preset.configs.enable = true;
-  };
-  latex = base // {
-    nvimx.preset.latex.enable = true;
-  };
-  lua = base // {
-    nvimx.preset.lua.enable = true;
-  };
-  markdown = base // {
-    nvimx.preset.markdown.enable = true;
-  };
-  nix = base // {
-    nvimx.preset.nix.enable = true;
-  };
-  python = base // {
-    nvimx.preset.python.enable = true;
-  };
-  rust = base // {
-    nvimx.preset.rust.enable = true;
-  };
-  shells = base // {
-    nvimx.preset.shells.enable = true;
-  };
-  typst = base // {
-    nvimx.preset.typst.enable = true;
-  };
+  configs = mkPreset [ "configs" ];
+  latex = mkPreset [ "latex" ];
+  lua = mkPreset [ "lua" ];
+  markdown = mkPreset [ "markdown" ];
+  nix = mkPreset [ "nix" ];
+  python = mkPreset [ "python" ];
+  rust = mkPreset [ "rust" ];
+  shells = mkPreset [ "shells" ];
+  typst = mkPreset [ "typst" ];
+
+  # Pre-composed preset package containing all language configurations
+  all = mkPreset [ "configs" "latex" "lua" "markdown" "nix" "python" "rust" "shells" "typst" ];
 }
