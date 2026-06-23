@@ -51,19 +51,65 @@ config = lib.mkIf (config.nvimx.preset.rust.enable) {
 ```
 
 ### 2. Presets Assembly (`presets.nix`)
-In `presets.nix`, presets are combined into target packages:
+
+In [presets.nix](file:///home/masa/Projects/nixvim/nvimx/presets.nix), presets are defined using a functional pattern. It takes `lib` from Nixpkgs and uses a helper function `mkPreset` to generate target package configurations:
+
 ```nix
+lib:
 let
-  base = { imports = [ ./nvimx ]; };
+  base = {
+    imports = [ ./nvimx ];
+  };
+  # Helper to generate a preset package configuration enabling a list of presets
+  mkPreset = presets: base // {
+    nvimx.preset = lib.genAttrs presets (name: { enable = true; });
+  };
 in
 {
-  default = base; # Lightweight editor
-  rust = base // {
-    nvimx.preset.rust.enable = true; # Rust development editor
+  default = base;
+  rust = mkPreset [ "rust" ];
+  # ...
+  # Pre-composed preset package containing all language configurations
+  all = mkPreset [ "configs" "latex" "lua" "markdown" "nix" "python" "rust" "shells" "typst" ];
+}
+```
+
+These presets are compiled into separate packages (e.g. `packages.x86_64-linux.rust` or `packages.x86_64-linux.all`) via the Flake outputs.
+
+---
+
+## Flake Integration & Custom Builds
+
+`nvimx` exposes a public helper function `lib.makeNvimx` in `flake.nix` so that other flakes (e.g., your system/home-manager configuration flake) can import `nvimx` and build customized Neovim packages dynamically.
+
+### Helper Function Signature
+`lib.makeNvimx` takes the target `system` and a custom Nixvim module, merges it with the core `nvimx` module, and compiles it:
+```nix
+makeNvimx = system: nixvimModule: ...
+```
+
+### Usage Example in a System Flake
+You can integrate `nvimx` into your system flake's outputs like this:
+```nix
+{
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nvimx.url = "github:yourusername/nvimx"; # path or github uri
+  };
+
+  outputs = { self, nixpkgs, nvimx, ... }: {
+    # Build a custom package for a specific system
+    packages.x86_64-linux.my-neovim = nvimx.lib.makeNvimx "x86_64-linux" {
+      # Enable specific presets
+      nvimx.preset.rust.enable = true;
+      nvimx.preset.nix.enable = true;
+
+      # Inject other custom Nixvim configuration here
+      opts.relativenumber = false;
+    };
   };
 }
 ```
-These presets are compiled into separate packages (e.g. `packages.x86_64-linux.rust`) via the Flake outputs.
 
 ---
 

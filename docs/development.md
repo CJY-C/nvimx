@@ -63,12 +63,12 @@ This document outlines coding standards, step-by-step instructions for extending
    }
    ```
 3. Import your preset file in `nvimx/presets/default.nix`.
-4. Define a corresponding preset assembly block in `presets.nix` so it gets built as a target package:
+4. Expose the preset in [presets.nix](file:///home/masa/Projects/nixvim/nvimx/presets.nix) by calling the `mkPreset` helper in the attribute set:
    ```nix
-     <language> = base // {
-       nvimx.preset.<language>.enable = true;
-     };
+     <language> = mkPreset [ "<language>" ];
    ```
+   If this preset should also be included in the pre-composed `all` preset, append its name string to the arguments of `all`'s `mkPreset` call.
+
 
 ---
 
