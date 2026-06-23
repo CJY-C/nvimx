@@ -63,17 +63,13 @@
       action = "<gv";
       mode = "v";
     }
-    # # shift+tab uses backspace in insert mode
-    # {
-    #   key = "<S-Tab>";
-    #   action = "<BS>"; # backspace
-    #   mode = "i";
-    # }
-    # FIXME: esc cancel search hilight
-    # {
-    #   key = "<ESC>"
-    #   action = 
-    # }
+    {
+      key = "<ESC>";
+      action = "<cmd>nohlsearch<CR>";
+      mode = "n";
+      options.silent = true;
+      options.desc = "Clear search highlight";
+    }
   ];
 
   extraConfigLua = ''

@@ -6,10 +6,6 @@
       url = "github:nix-community/nixvim"; # Dont follow nixpkgs; see: https://nix-community.github.io/nixvim/user-guide/faq.html#how-do-i-solve-name-cannot-be-found-in-pkgs
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    winresize = {
-      url = "github:pogyomo/winresize.nvim";
-      flake = false;
-    };
     memos-nvim = {
       url = "github:CJY-C/memos.nvim/refactor-latest-api-core";
       flake = false;
