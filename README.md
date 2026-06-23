@@ -5,7 +5,8 @@ Project-based, modular Neovim configuration via NixVim.
 Nvimx provides many presets based on different language (lsp, treesitter) support and different uses, allowing you to choose what is installed on a neovim instance per project. Works well with [direnv](https://direnv.net/).
 
 Nvimx exports these module/package presets:
-- `default`/`base` - Base Neovim instance, contains all plugins, no language support. All other presets automatically includes this base.
+- `default`/`base` - Base Neovim instance, contains all plugins, no language support. All other presets automatically include this base.
+- `all` - Pre-composed Neovim instance that merges all language presets and configurations together.
 - Languages (ts = treesitter):
   - `configs` - ts for `ini`, `json`, `kdl`, `yaml`, `toml`
   - `latex` - ts & lsp ([texlab](https://github.com/latex-lsp/texlab))
@@ -58,34 +59,32 @@ You may need to enable experimental features by passing in this environment vari
 NIX_CONFIG="extra-experimental-featues = nix-command flakes"
 ```
 
-2. Construct a module in a flake (i.e. in `devShells`).
-Nvimx flake outputs `makeNvimxWithModule (system: nvimxModule: ...)` to be used in this case. Presets have options under `nvimx.preset.${preset}`, and need to be opted in with `nvimx.preset.${preset}.enable = true`.
+2. Construct a module in a flake (i.e. in `devShells` or system configurations).
+Nvimx flake exposes `lib.makeNvimx` to compile custom Neovim packages. Presets have options under `nvimx.preset.${preset}`, and need to be opted in with `nvimx.preset.${preset}.enable = true`.
+
 ```nix
 {
-  outputs = { self, nixpkgs, nixvim }: let
-  in {
-    devShells = let 
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-    in ${system}.default = pkgs.mkShell (let
-      nixvimModule = {
-        # enable the presets you want to use
-        nvimx.preset.typst.enable = true;
-
-        # or add custom nixvim or nvimx options here
-        plugins.xyz.enable = true;
-      };
-      nixvimPkg = nvimx.makeNvimxWithModule system nixvimModule; # package it!
-    in {
-      packages = [ nixvimPkg ];
-    });
-  };
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nvimx = {
       url = "github:allen-liaoo/nvimx";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+  outputs = { self, nixpkgs, nvimx, ... }: {
+    devShells.x86_64-linux.default = let
+      pkgs = nixpkgs.legacyPackages.x86_64-linux;
+      nixvimModule = {
+        # Enable the presets you want to use
+        nvimx.preset.typst.enable = true;
+
+        # Or add custom nixvim or nvimx options here
+        opts.relativenumber = true;
+      };
+      nixvimPkg = nvimx.lib.makeNvimx "x86_64-linux" nixvimModule; # package it!
+    in pkgs.mkShell {
+      packages = [ nixvimPkg ];
     };
   };
 }
