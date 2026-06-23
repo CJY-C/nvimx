@@ -1,76 +1,16 @@
 {
   keymaps = [
     # navigation
-    {
-      key = "<C-h>";
-      action = ''<cmd>lua win_move_or_tab("h")<CR>'';
-      options.desc = "Window or Tab: Go left";
-    }
-    {
-      key = "<C-j>";
-      action = "<cmd>wincmd j<CR>";
-      options.desc = "Window: Go down";
-    }
-    {
-      key = "<C-k>";
-      action = "<cmd>wincmd k<CR>";
-      options.desc = "Window: Go up";
-    }
-    {
-      key = "<C-l>";
-      action = ''<cmd>lua win_move_or_tab("l")<CR>'';
-      options.desc = "Window or Tab: Go right";
-    }
-    {
-      key = "<C-left>";
-      action = ''<cmd>lua win_move_or_tab("h")<CR>'';
-      options.desc = "Window or Tab: Go left";
-    }
-    {
-      key = "<C-down>";
-      action = "<cmd>wincmd j<CR>";
-      options.desc = "Window: Go down";
-    }
-    {
-      key = "<C-up>";
-      action = "<cmd>wincmd k<CR>";
-      options.desc = "Window: Go up";
-    }
-    {
-      key = "<C-right>";
-      action = ''<cmd>lua win_move_or_tab("l")<CR>'';
-      options.desc = "Window or Tab: Go right";
-    }
-    {
-      key = "<C-S-H>";
-      action = "<cmd>tabprevious<CR>";
-      options.desc = "Tab: Go left";
-    }
-    {
-      key = "<C-S-L>";
-      action = "<cmd>tabnext<CR>";
-      options.desc = "Tab: Go right";
-    }
     # window/tab
-    {
-      key = "<C-x>";
-      action = "<cmd>lua smartclose()<CR>";
-      options.desc = "Window or Tab: Close";
-    }
+    # {
+    #   key = "<C-x>";
+    #   action = "<cmd>lua smartclose()<CR>";
+    #   options.desc = "Window or Tab: Close";
+    # }
     {
       key = "<C-t>";
       action = "<cmd>tabnew<CR>";
       options.desc = "Tab: New";
-    }
-    {
-      key = "<leader>h";
-      action = "<cmd>split<CR>";
-      options.desc = "Window: Horizontal split";
-    }
-    {
-      key = "<leader>v";
-      action = "<cmd>vsplit<CR>";
-      options.desc = "Window: Vertical split";
     }
   ];
 

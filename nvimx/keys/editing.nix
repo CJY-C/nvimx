@@ -31,6 +31,16 @@
       options.noremap = true;
       options.expr = true;
     }
+    {
+      key = "P";
+      action = ''v:lua.clipboard_or_default("P")'';
+      mode = [
+        "n"
+        "x"
+      ];
+      options.noremap = true;
+      options.expr = true;
+    }
     # move selected lines up/down while preserving indentation
     {
       key = "J";
@@ -53,12 +63,17 @@
       action = "<gv";
       mode = "v";
     }
-    # shift+tab uses backspace in insert mode
-    {
-      key = "<S-Tab>";
-      action = "<BS>"; # backspace
-      mode = "i";
-    }
+    # # shift+tab uses backspace in insert mode
+    # {
+    #   key = "<S-Tab>";
+    #   action = "<BS>"; # backspace
+    #   mode = "i";
+    # }
+    # FIXME: esc cancel search hilight
+    # {
+    #   key = "<ESC>"
+    #   action = 
+    # }
   ];
 
   extraConfigLua = ''
