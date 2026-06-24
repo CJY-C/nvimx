@@ -50,7 +50,7 @@ The default global keymap is `<leader>mm` for `:Memos`. Set `nvimx.memos.keymaps
 ## Usage
 1. Run directly:
 ```bash
-nix run github:allen-liaoo/nvimx
+nix run github:CJY-C/nvimx
 ```
 You can run a preset by appending `#{preset}`.
 
