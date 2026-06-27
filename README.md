@@ -11,7 +11,7 @@ Nvimx exports these module/package presets:
   - `configs` - ts for `ini`, `json`, `kdl`, `yaml`, `toml`
   - `latex` - ts & lsp ([texlab](https://github.com/latex-lsp/texlab))
   - `lua` - ts & lsp ([lua-language-server](https://github.com/LuaLS/lua-language-server))
-  - `markdown` - ts & lsp ([marksman](https://github.com/artempyanykh/marksman))
+  - `markdown` - ts, lsp ([marksman](https://github.com/artempyanykh/marksman)), and inline rendering ([render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim))
   - `nix` - ts & lsp ([nixd](https://github.com/nix-community/nixd/))
   - `python` - ts & lsp ([pyright](https://github.com/microsoft/pyright))
   - `rust` - ts & lsp ([rust-analyzer](https://github.com/rust-lang/rust-analyzer))
