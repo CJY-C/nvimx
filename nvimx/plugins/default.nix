@@ -9,6 +9,7 @@
     ./grug-far.nix
     ./lualine.nix
     ./memos.nix
+    ./native-tools.nix
     ./telescope.nix
     ./yazi.nix
   ];
