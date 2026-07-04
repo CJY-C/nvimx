@@ -24,11 +24,11 @@
     "memos-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1783079142,
-        "narHash": "sha256-pA/QnF0Sud2rV0IBBgXw0dmxz+gFxX59LgtNNu+WVUk=",
+        "lastModified": 1783086853,
+        "narHash": "sha256-K9ioEYHAENwylZzniWhgUCgzXo9PxUrpPrvov7zWez0=",
         "owner": "CJY-C",
         "repo": "memos.nvim",
-        "rev": "061c2f01b5da20c7609e742a1dc8daf213b46afe",
+        "rev": "1e194f406e5ecd6a9733e0f167b13c1a923d0c35",
         "type": "github"
       },
       "original": {
