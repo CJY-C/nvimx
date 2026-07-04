@@ -67,7 +67,7 @@ Nvimx flake exposes `lib.makeNvimx` to compile custom Neovim packages. Presets h
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nvimx = {
-      url = "github:allen-liaoo/nvimx";
+      url = "github:CJY-C/nvimx";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
