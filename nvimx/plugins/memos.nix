@@ -8,6 +8,7 @@
 
 let
   cfg = config.nvimx.memos;
+  defaultEnvFile = "<nvimx-config-home>/sops-nix/secrets/rendered/memos.env";
   setupConfig = {
     host = cfg.host;
     page_size = cfg.pageSize;
@@ -25,7 +26,7 @@ in
 
     envFile = lib.mkOption {
       type = lib.types.nullOr lib.types.str;
-      default = "~/.config/sops-nix/secrets/rendered/memos.env";
+      default = defaultEnvFile;
       description = "Runtime env file containing MEMOS_HOST and MEMOS_TOKEN.";
     };
 
@@ -90,9 +91,22 @@ in
     extraPackages = [ pkgs.curl ];
 
     extraConfigLua = ''
+      local function nvimx_config_home_path(relative)
+        local config_home = vim.env.XDG_CONFIG_HOME
+        if not config_home or config_home == "" then
+          config_home = vim.fn.expand("~/.config")
+        end
+        return config_home .. "/" .. relative
+      end
+
       local memos_config = ${lib.generators.toLua { } setupConfig}
       memos_config.env_file = ${
-        if cfg.envFile == null then "nil" else "vim.fn.expand(${lib.generators.toLua { } cfg.envFile})"
+        if cfg.envFile == null then
+          "nil"
+        else if cfg.envFile == defaultEnvFile then
+          ''nvimx_config_home_path("sops-nix/secrets/rendered/memos.env")''
+        else
+          "vim.fn.expand(${lib.generators.toLua { } cfg.envFile})"
       }
       require("memos").setup(memos_config)
     '';

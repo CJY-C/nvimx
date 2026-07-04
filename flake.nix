@@ -10,6 +10,10 @@
       url = "github:CJY-C/memos.nvim/refactor-latest-api-core";
       flake = false;
     };
+    mdtags-nvim = {
+      url = "github:CJY-C/mdtags.nvim";
+      flake = false;
+    };
   };
 
   outputs =

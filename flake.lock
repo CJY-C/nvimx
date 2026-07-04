@@ -21,6 +21,22 @@
         "type": "github"
       }
     },
+    "mdtags-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783154431,
+        "narHash": "sha256-Hg4g4nq/hx3+phkhkn4PywyF7jADmqj3NORWeoYJ1AY=",
+        "owner": "CJY-C",
+        "repo": "mdtags.nvim",
+        "rev": "85b9921cfdcebc3f3367842c55869734e461b67f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "CJY-C",
+        "repo": "mdtags.nvim",
+        "type": "github"
+      }
+    },
     "memos-nvim": {
       "flake": false,
       "locked": {
@@ -78,6 +94,7 @@
     },
     "root": {
       "inputs": {
+        "mdtags-nvim": "mdtags-nvim",
         "memos-nvim": "memos-nvim",
         "nixpkgs": "nixpkgs",
         "nixvim": "nixvim"
