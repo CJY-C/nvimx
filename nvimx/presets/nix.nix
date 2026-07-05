@@ -25,7 +25,7 @@
         };
         hmConfKey = lib.mkOption {
           type = lib.types.str;
-          description = "Name of homeConfigurations key in the flake, used for looking up Home Manager options. Only set this if using HM standalone.";
+          description = "Name of homeConfigurations/nixosConfigurations key in the flake, used for looking up Home Manager options.";
           default = "";
         };
         nixvimPackage = lib.mkOption {
@@ -37,9 +37,39 @@
           type = lib.types.attrsOf lib.types.str;
           description = ''
             Mapping of input name in flake to path to lookup its options.
-                        If the module is at \"inputs.stylix.homeModules.stylix\", then write \"stylix\" = \"homeModules.stylix\";
+            If the module is at \"inputs.stylix.homeModules.stylix\", then write \"stylix\" = \"homeModules.stylix\";
           '';
           default = { };
+        };
+        homeManagerMode = lib.mkOption {
+          type = lib.types.enum [ "standalone" "nixos-module" ];
+          description = "Home Manager mode: 'standalone' (homeConfigurations) or 'nixos-module' (integrated as a module under nixosConfigurations).";
+          default = "standalone";
+        };
+        homeManagerUser = lib.mkOption {
+          type = lib.types.str;
+          description = "Username for home-manager when homeManagerMode is 'nixos-module' (not used by default as type.getSubOptions gets all options).";
+          default = "";
+        };
+        optionExprs = lib.mkOption {
+          type = lib.types.attrsOf lib.types.str;
+          description = "Arbitrary options lookup raw expressions. Key is option name (e.g., 'stylix'), value is expression (e.g. '\${flakeExpr}.inputs.stylix.homeModules.stylix.options'). Occurrences of '\${flakeExpr}' and '__FLAKE_EXPR__' are replaced by the dynamic flake lookup expression.";
+          default = { };
+        };
+        cmd = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          description = "Command line to run nixd.";
+          default = [ "nixd" ];
+        };
+        extraArgs = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          description = "Extra arguments to pass to the nixd CLI.";
+          default = [ ];
+        };
+        useCliOptionsExpr = lib.mkOption {
+          type = lib.types.bool;
+          description = "Whether to pass nixpkgs-expr and nixos-options-expr as command line arguments to nixd rather than purely through LSP configuration.";
+          default = false;
         };
       };
     };
@@ -50,6 +80,51 @@
 
     plugins.lsp.servers.nixd = {
       enable = true;
+      extraOptions.cmd =
+        let
+          cfg = config.nvimx.preset.nix.nixd;
+          q = "\\\""; # nix's quote ("), escaped in lua (\"), escaped in nix
+          flakeExpr = "(builtins.getFlake ${q}\' .. find_flake_dir() .. \'${q})"; # see lsp.luaConfig below
+          # user supplied values may contain special characters, need escaping to use as attr path (in nix)
+          escape =
+            path:
+            lib.pipe path [
+              (lib.splitString ".")
+              (map (s: q + s + q))
+              (builtins.concatStringsSep ".")
+            ];
+          nixpkgs_expr =
+            if cfg.nixpkgsName != "" then
+              "\'${flakeExpr}.inputs.${escape cfg.nixpkgsName}.legacyPackages.${system}\'"
+            else
+              "\'import <nixpkgs> { }\'";
+          nixos_expr =
+            if cfg.nixosConfKey != "" then
+              "\'${flakeExpr}.nixosConfigurations.${escape cfg.nixosConfKey}.options\'"
+            else
+              "\'\'";
+          toLuaList = list: "{" + (lib.concatMapStringsSep ", " (s: "\"${s}\"") list) + "}";
+        in
+        {
+          __raw = ''
+            (function()
+              local cmd = ${toLuaList cfg.cmd}
+              if ${if cfg.useCliOptionsExpr then "true" else "false"} then
+                table.insert(cmd, "--nixpkgs-expr=" .. ${nixpkgs_expr})
+                local nixos_expr = ${nixos_expr}
+                if nixos_expr ~= "" then
+                  table.insert(cmd, "--nixos-options-expr=" .. nixos_expr)
+                end
+              end
+              local extra = ${toLuaList cfg.extraArgs}
+              for _, v in ipairs(extra) do
+                table.insert(cmd, v)
+              end
+              return cmd
+            end)()
+          '';
+        };
+
       settings =
         let
           q = "\\\""; # nix's quote ("), escaped in lua (\"), escaped in nix
@@ -85,25 +160,36 @@
 
           # flake inputs and default values
           options =
-            lib.mapAttrs
-              (_: path: {
-                expr.__raw = "\'${path}\'";
-              })
-              (
-                # input = full path (flake.full_path) to module options
+            let
+              defaultExprs =
                 lib.optionalAttrs (nixosConfKey != "") {
                   "nixos" = "${flakeExpr}.nixosConfigurations.${escape nixosConfKey}.options";
                 }
-                // lib.optionalAttrs (hmConfKey != "") {
-                  "home-manager" = "${flakeExpr}.homeConfigurations.${escape hmConfKey}.options";
-                }
+                // lib.optionalAttrs (hmConfKey != "") (
+                  if homeManagerMode == "standalone" then {
+                    "home-manager" = "${flakeExpr}.homeConfigurations.${escape hmConfKey}.options";
+                  } else {
+                    "home-manager" = "${flakeExpr}.nixosConfigurations.${escape hmConfKey}.options.home-manager.users.type.getSubOptions [ ]";
+                  }
+                )
                 // lib.optionalAttrs (nixvimPackage != "") {
                   "nixvim" = "${flakeExpr}.packages.${system}.${escape nixvimPackage}.options";
                 }
                 // lib.mapAttrs (
                   input: path: "${flakeExpr}.inputs.${escape input}.${escape path}.options"
-                ) flakeInputs
-              );
+                ) flakeInputs;
+
+              resolvedOptionExprs = lib.mapAttrs (
+                _: expr: lib.replaceStrings [ "\${flakeExpr}" "__FLAKE_EXPR__" ] [ flakeExpr flakeExpr ] expr
+              ) optionExprs;
+
+              mergedExprs = defaultExprs // resolvedOptionExprs;
+            in
+            lib.mapAttrs
+              (_: path: {
+                expr.__raw = "\'${path}\'";
+              })
+              mergedExprs;
         };
     };
 
