@@ -112,14 +112,15 @@
     ];
 
     lsp.luaConfig.pre = ''
-      -- search up the path for flake directory, falllback to cwd
+      -- search up the path for flake directory, fallback to cwd
       function find_flake_dir()
-        local dir = vim.fn.getcwd()
-        while dir ~= "/" do
-          if vim.fn.filereadable(dir .. "/flake.nix") == 1 then
-            return dir
+        local path = vim.api.nvim_buf_get_name(0)
+        if path and path ~= "" then
+          local dir = vim.fs.dirname(path)
+          local root = vim.fs.root(dir, { "flake.nix", ".git" })
+          if root then
+            return root
           end
-          dir = vim.fn.fnamemodify(dir, ":h")
         end
         return vim.fn.getcwd()
       end
