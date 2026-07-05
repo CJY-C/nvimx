@@ -56,7 +56,7 @@ You can run a preset by appending `#{preset}`.
 
 You may need to enable experimental features by passing in this environment variable:
 ```
-NIX_CONFIG="extra-experimental-featues = nix-command flakes"
+NIX_CONFIG="extra-experimental-features = nix-command flakes"
 ```
 
 2. Construct a module in a flake (i.e. in `devShells` or system configurations).
