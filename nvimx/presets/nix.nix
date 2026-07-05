@@ -42,7 +42,10 @@
           default = { };
         };
         homeManagerMode = lib.mkOption {
-          type = lib.types.enum [ "standalone" "nixos-module" ];
+          type = lib.types.enum [
+            "standalone"
+            "nixos-module"
+          ];
           description = "Home Manager mode: 'standalone' (homeConfigurations) or 'nixos-module' (integrated as a module under nixosConfigurations).";
           default = "standalone";
         };
@@ -166,11 +169,15 @@
                   "nixos" = "${flakeExpr}.nixosConfigurations.${escape nixosConfKey}.options";
                 }
                 // lib.optionalAttrs (hmConfKey != "") (
-                  if homeManagerMode == "standalone" then {
-                    "home-manager" = "${flakeExpr}.homeConfigurations.${escape hmConfKey}.options";
-                  } else {
-                    "home-manager" = "${flakeExpr}.nixosConfigurations.${escape hmConfKey}.options.home-manager.users.type.getSubOptions [ ]";
-                  }
+                  if homeManagerMode == "standalone" then
+                    {
+                      "home-manager" = "${flakeExpr}.homeConfigurations.${escape hmConfKey}.options";
+                    }
+                  else
+                    {
+                      "home-manager" =
+                        "${flakeExpr}.nixosConfigurations.${escape hmConfKey}.options.home-manager.users.type.getSubOptions [ ]";
+                    }
                 )
                 // lib.optionalAttrs (nixvimPackage != "") {
                   "nixvim" = "${flakeExpr}.packages.${system}.${escape nixvimPackage}.options";
@@ -185,11 +192,9 @@
 
               mergedExprs = defaultExprs // resolvedOptionExprs;
             in
-            lib.mapAttrs
-              (_: path: {
-                expr.__raw = "\'${path}\'";
-              })
-              mergedExprs;
+            lib.mapAttrs (_: path: {
+              expr.__raw = "\'${path}\'";
+            }) mergedExprs;
         };
     };
 
@@ -203,7 +208,7 @@
         local path = vim.api.nvim_buf_get_name(0)
         if path and path ~= "" then
           local dir = vim.fs.dirname(path)
-          local root = vim.fs.root(dir, { "flake.nix", ".git" })
+          local root = vim.fs.root(dir, { "flake.nix" })
           if root then
             return root
           end

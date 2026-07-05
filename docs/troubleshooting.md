@@ -68,7 +68,7 @@ To see if `nixd` (or any other LSP server) is attached to the current buffer, ru
 ```
 If this returns an empty table `{}`:
 - Check if your cursor is in a file with the correct filetype (e.g. `nix`).
-- Check if the project root directory is correctly detected (does it contain `.git` or `flake.nix`?).
+- Check if the flake root is correctly detected. Nix option lookup needs a `flake.nix`; a plain `.git` directory is not enough for `builtins.getFlake`.
 
 ### Read LSP Log File
 If an LSP client is crashing or failing, Neovim logs errors to the LSP log file.

@@ -151,4 +151,4 @@ The Nix language preset (`nvimx.preset.nix`) configures `nixd` for intelligent N
   - `useCliOptionsExpr`: If `true`, passes `--nixpkgs-expr` and `--nixos-options-expr` as CLI arguments to `nixd` rather than through LSP configuration, which helps with certain completion tools.
 
 #### Flake Directory Resolution
-The LSP uses a dynamic `find_flake_dir()` Lua helper function which resolves the project root from the current buffer's file path (looking for `flake.nix` or `.git` upwards) rather than simply using Neovim's current working directory (`cwd`). This ensures correct flake lookup when Neovim is launched from outside the project directory.
+The LSP uses a dynamic `find_flake_dir()` Lua helper function which resolves the flake root from the current buffer's file path by looking for `flake.nix` upwards, then falls back to Neovim's current working directory (`cwd`). It intentionally does not use `.git` as a flake root marker, because the result is passed to `builtins.getFlake` and must point at a real flake.

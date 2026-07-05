@@ -4,9 +4,14 @@ let
     imports = [ ./nvimx ];
   };
   # Helper to generate a preset package configuration enabling a list of presets
-  mkPreset = presets: base // {
-    nvimx.preset = lib.genAttrs presets (name: { enable = true; });
-  };
+  mkPreset =
+    presets:
+    base
+    // {
+      nvimx.preset = lib.genAttrs presets (name: {
+        enable = true;
+      });
+    };
 in
 {
   default = base;
@@ -22,5 +27,15 @@ in
   typst = mkPreset [ "typst" ];
 
   # Pre-composed preset package containing all language configurations
-  all = mkPreset [ "configs" "latex" "lua" "markdown" "nix" "python" "rust" "shells" "typst" ];
+  all = mkPreset [
+    "configs"
+    "latex"
+    "lua"
+    "markdown"
+    "nix"
+    "python"
+    "rust"
+    "shells"
+    "typst"
+  ];
 }

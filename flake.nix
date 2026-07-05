@@ -54,9 +54,16 @@
       inherit nixvimModules;
       lib = {
         # Expose a helper to build custom Neovim packages from other flakes
-        makeNvimx = arg:
+        makeNvimx =
+          arg:
           if builtins.isString arg then
-            (nixvimModule: self.lib.makeNvimx { system = arg; module = nixvimModule; })
+            (
+              nixvimModule:
+              self.lib.makeNvimx {
+                system = arg;
+                module = nixvimModule;
+              }
+            )
           else
             let
               args = arg;
@@ -73,7 +80,12 @@
             };
       };
 
-      makeNvimxWithModule = system: m: self.lib.makeNvimx { inherit system; module = m; };
+      makeNvimxWithModule =
+        system: m:
+        self.lib.makeNvimx {
+          inherit system;
+          module = m;
+        };
 
       apps = forAllSystems (
         system:
