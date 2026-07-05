@@ -82,7 +82,10 @@ Nvimx flake exposes `lib.makeNvimx` to compile custom Neovim packages. Presets h
         # Or add custom nixvim or nvimx options here
         opts.relativenumber = true;
       };
-      nixvimPkg = nvimx.lib.makeNvimx "x86_64-linux" nixvimModule; # package it!
+      nixvimPkg = nvimx.lib.makeNvimx {
+        system = "x86_64-linux";
+        module = nixvimModule;
+      }; # package it!
     in pkgs.mkShell {
       packages = [ nixvimPkg ];
     };
