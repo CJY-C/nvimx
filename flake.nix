@@ -120,11 +120,11 @@
           default = pkgs.mkShell (
             let
               nixvimModule = {
-                nvimx.preset.nix.enable = true;
+                imports = [ self.nixvimModules.all ];
                 nvimx.preset.nix.nixd = {
                   # enable lsp to lookup of nixvim options
                   nixpkgsName = "nixpkgs";
-                  nixvimPackage = "default";
+                  nixvimPackage = "all";
                 };
               };
               nixvimPkg = self.makeNvimxWithModule system nixvimModule;
