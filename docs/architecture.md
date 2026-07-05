@@ -52,7 +52,7 @@ config = lib.mkIf (config.nvimx.preset.rust.enable) {
 
 ### 2. Presets Assembly (`presets.nix`)
 
-In [presets.nix](file:///home/masa/Projects/nixvim/nvimx/presets.nix), presets are defined using a functional pattern. It takes `lib` from Nixpkgs and uses a helper function `mkPreset` to generate target package configurations:
+In [presets.nix](../presets.nix), presets are defined using a functional pattern. It takes `lib` from Nixpkgs and uses a helper function `mkPreset` to generate target package configurations:
 
 ```nix
 lib:
