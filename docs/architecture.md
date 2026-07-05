@@ -130,3 +130,25 @@ LSP integration is built on two highly mature, stable plugins:
 2. **`plugins.blink-cmp`**: A modern, high-performance completion engine written in Rust. It hooks into the LSP client to provide fast, fuzzy-completion popups.
 
 Instead of hardcoding formatting logic in Neovim's LSP autocommands, formatting is handled by the mature `plugins.conform-nvim` module. Language presets map their formatting backends (e.g., `nixfmt` for Nix) straight into `conform-nvim`'s config, falling back to standard LSP formatting if none are defined. Additionally, automatic format-on-save can be disabled globally or overridden on a per-preset basis using the `nvimx.lsp.formatOnSave` option.
+
+### Nix Preset and Nixd Configuration
+
+The Nix language preset (`nvimx.preset.nix`) configures `nixd` for intelligent Nix autocomplete, options lookup, and diagnostics. It provides the following options under `nvimx.preset.nix.nixd`:
+
+- **Flake Paths**:
+  - `nixpkgsName`: Name of nixpkgs input in the flake.
+  - `nixosConfKey`: Name of the `nixosConfigurations` key in the flake.
+  - `hmConfKey`: Name of the `homeConfigurations` (standalone) or `nixosConfigurations` (integrated) key in the flake.
+  - `nixvimPackage`: Name of the `packages.${system}.nixvim` key in the flake.
+  - `flakeInputs`: Map of other flake input names to option lookup paths.
+- **Home Manager Integration**:
+  - `homeManagerMode`: Either `"standalone"` (default) to lookup `homeConfigurations`, or `"nixos-module"` to lookup integrated Home Manager configurations within a NixOS system.
+- **Custom Expressions**:
+  - `optionExprs`: An attribute set of custom Nix option lookup expressions. Placeholders like `\${flakeExpr}` or `__FLAKE_EXPR__` are resolved to the dynamic flake directory.
+- **CLI Options**:
+  - `cmd`: Binary array to execute (defaults to `[ "nixd" ]`).
+  - `extraArgs`: Extra CLI arguments for `nixd`.
+  - `useCliOptionsExpr`: If `true`, passes `--nixpkgs-expr` and `--nixos-options-expr` as CLI arguments to `nixd` rather than through LSP configuration, which helps with certain completion tools.
+
+#### Flake Directory Resolution
+The LSP uses a dynamic `find_flake_dir()` Lua helper function which resolves the project root from the current buffer's file path (looking for `flake.nix` or `.git` upwards) rather than simply using Neovim's current working directory (`cwd`). This ensures correct flake lookup when Neovim is launched from outside the project directory.
