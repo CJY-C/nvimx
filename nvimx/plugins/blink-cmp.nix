@@ -13,7 +13,7 @@
         "path"
         "snippets"
       ]; # removed "buffer" text completion
-      keymap.preset = "super-tab";
+      keymap.preset = "default";
       signature.enabled = true;
     };
   };

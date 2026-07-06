@@ -17,6 +17,7 @@ This document describes the high-level architecture, module design, and presets 
 │   │   └── wintab.nix  # Window and tab navigation keymaps
 │   ├── plugins/        # Plugin-specific configurations
 │   │   ├── default.nix # General plugin declarations & configuration
+│   │   ├── autopairs.nix# Automatic bracket and quote pairing
 │   │   ├── blink-cmp.nix# Autocomplete engine
 │   │   ├── flash.nix   # Flash navigation plugin
 │   │   ├── lualine.nix # Statusline plugin
@@ -127,7 +128,9 @@ You can integrate `nvimx` into your system flake's outputs like this:
 
 LSP integration is built on two highly mature, stable plugins:
 1. **`plugins.lsp` (nvim-lspconfig)**: Provides the standard interface to configure language servers.
-2. **`plugins.blink-cmp`**: A modern, high-performance completion engine written in Rust. It hooks into the LSP client to provide fast, fuzzy-completion popups.
+2. **`plugins.blink-cmp`**: A modern, high-performance completion engine written in Rust. It hooks into the LSP client to provide fast, fuzzy-completion popups, using its default keymap preset.
+
+General insert-mode editing helpers belong in the base plugin layer. `plugins.nvim-autopairs` is enabled there through NixVim's native module so bracket/quote pairing is available across all presets; it owns `<CR>` and `<BS>` pair behavior.
 
 Instead of hardcoding formatting logic in Neovim's LSP autocommands, formatting is handled by the mature `plugins.conform-nvim` module. Language presets map their formatting backends (e.g., `nixfmt` for Nix) straight into `conform-nvim`'s config, falling back to standard LSP formatting if none are defined. Additionally, automatic format-on-save can be disabled globally or overridden on a per-preset basis using the `nvimx.lsp.formatOnSave` option.
 

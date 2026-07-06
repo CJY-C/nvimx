@@ -5,7 +5,7 @@ Project-based, modular Neovim configuration via NixVim.
 Nvimx provides many presets based on different language (lsp, treesitter) support and different uses, allowing you to choose what is installed on a neovim instance per project. Works well with [direnv](https://direnv.net/).
 
 Nvimx exports these module/package presets:
-- `default`/`base` - Base Neovim instance, contains all plugins, no language support. All other presets automatically include this base.
+- `default`/`base` - Base Neovim instance, contains all general editing plugins, no language support. All other presets automatically include this base.
 - `all` - Pre-composed Neovim instance that merges all language presets and configurations together.
 - Languages (ts = treesitter):
   - `configs` - ts for `ini`, `json`, `kdl`, `yaml`, `toml`
@@ -19,6 +19,8 @@ Nvimx exports these module/package presets:
   - `typst` - ts and lsp ([tinymist](https://github.com/Myriad-Dreamin/tinymist))
 
 Additionally, you can set `nvimx.treesitter.enableAllGrammars = true` to get ts for all languages without individually enabling variants.
+
+The base configuration uses `blink.cmp` with its default keymap preset, and enables `nvim-autopairs` for automatic bracket/quote pairing. Autopairs owns `<CR>` and `<BS>` pair behavior.
 
 ## Memos
 

@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./autopairs.nix
     ./blink-cmp.nix
     ./conform.nix
     ./flash.nix
