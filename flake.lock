@@ -24,11 +24,11 @@
     "mdtags-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1783154431,
-        "narHash": "sha256-Hg4g4nq/hx3+phkhkn4PywyF7jADmqj3NORWeoYJ1AY=",
+        "lastModified": 1784013816,
+        "narHash": "sha256-ENXh4pBK2sH41zkx5w0f5qF2rNl2aMp7dJGF0v1edUc=",
         "owner": "CJY-C",
         "repo": "mdtags.nvim",
-        "rev": "85b9921cfdcebc3f3367842c55869734e461b67f",
+        "rev": "97cfa1fa085502718723ad6139a9a9e76f2070f0",
         "type": "github"
       },
       "original": {
