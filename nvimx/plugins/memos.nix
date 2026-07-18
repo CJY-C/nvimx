@@ -15,6 +15,7 @@ let
     list_state = cfg.listState;
     list_order_by = cfg.listOrderBy;
     auto_save = cfg.autoSave;
+    template_tag = cfg.templateTag;
     window = cfg.window;
   };
 in
@@ -58,6 +59,12 @@ in
       type = lib.types.bool;
       default = false;
       description = "Whether memos.nvim should save memo buffers automatically.";
+    };
+
+    templateTag = lib.mkOption {
+      type = lib.types.strMatching "[^#].*";
+      default = "type/template";
+      description = "Template tag passed to memos.nvim without a leading #; Unicode tags are supported.";
     };
 
     keymaps.open = lib.mkOption {

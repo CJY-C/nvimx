@@ -30,6 +30,7 @@ By default, nvimx configures it with:
 
 ```nix
 nvimx.memos.envFile = "~/.config/sops-nix/secrets/rendered/memos.env";
+nvimx.memos.templateTag = "type/template"; # passed to memos.nvim without #
 ```
 
 The runtime env file should contain:
@@ -40,6 +41,8 @@ MEMOS_TOKEN=your-token
 ```
 
 The token is intentionally not exposed as a Nix option, so it does not enter the Nix store or git history. Use `nvimx.memos.envFile` to point to another secret file, or set `MEMOS_HOST` and `MEMOS_TOKEN` in the Neovim process environment.
+
+`nvimx.memos.templateTag` controls template creation, stripping, rendering, instantiation, and the exact Memos tags filter. It defaults to `type/template`, must not start with `#`, and may contain Unicode.
 
 Commands:
 
