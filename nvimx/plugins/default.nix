@@ -6,7 +6,7 @@
     ./blink-cmp.nix
     ./conform.nix
     ./flash.nix
-    ./git-conflict.nix
+    ./diffview.nix
     ./grug-far.nix
     ./lualine.nix
     ./memos.nix
