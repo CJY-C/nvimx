@@ -4,6 +4,13 @@
   ...
 }:
 
+let
+  prettierFallback = {
+    __unkeyed-1 = "prettierd";
+    __unkeyed-2 = "prettier";
+    stop_after_first = true;
+  };
+in
 {
   options.nvimx.preset.typescript.enable = lib.mkEnableOption "typescript";
 
@@ -21,11 +28,11 @@
     ];
 
     plugins.conform-nvim.settings.formatters_by_ft = {
-      typescript = [ [ "prettierd" "prettier" ] ];
-      typescriptreact = [ [ "prettierd" "prettier" ] ];
-      javascript = [ [ "prettierd" "prettier" ] ];
-      javascriptreact = [ [ "prettierd" "prettier" ] ];
-      json = [ [ "prettierd" "prettier" ] ];
+      typescript = prettierFallback;
+      typescriptreact = prettierFallback;
+      javascript = prettierFallback;
+      javascriptreact = prettierFallback;
+      json = prettierFallback;
     };
   };
 }
