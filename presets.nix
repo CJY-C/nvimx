@@ -24,6 +24,7 @@ in
   python = mkPreset [ "python" ];
   rust = mkPreset [ "rust" ];
   shells = mkPreset [ "shells" ];
+  typescript = mkPreset [ "typescript" ];
   typst = mkPreset [ "typst" ];
 
   # Pre-composed preset package containing all language configurations
@@ -36,6 +37,7 @@ in
     "python"
     "rust"
     "shells"
+    "typescript"
     "typst"
   ];
 }
