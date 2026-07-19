@@ -16,6 +16,7 @@ Nvimx exports these module/package presets:
   - `python` - ts & lsp ([pyright](https://github.com/microsoft/pyright))
   - `rust` - ts & lsp ([rust-analyzer](https://github.com/rust-lang/rust-analyzer))
   - `shells` - ts and lsp for `bash`, `fish`, `zsh`
+  - `typescript` - ts (typescript, tsx, javascript), lsp ([ts_ls](https://github.com/typescript-language-server/typescript-language-server)), formatting ([prettier](https://prettier.io/) / [prettierd](https://github.com/fsouza/prettierd))
   - `typst` - ts and lsp ([tinymist](https://github.com/Myriad-Dreamin/tinymist))
 
 Additionally, you can set `nvimx.treesitter.enableAllGrammars = true` to get ts for all languages without individually enabling variants.

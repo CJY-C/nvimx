@@ -26,7 +26,7 @@ This document describes the high-level architecture, module design, and presets 
 │   │   ├── default.nix # Presets list entrypoint
 │   │   ├── nix.nix     # Nix LSP (nixd), formatter, and treesitter config
 │   │   ├── rust.nix    # Rust LSP (rust-analyzer) & treesitter config
-│   │   └── ...         # Other languages (Python, Typst, LaTeX, etc.)
+│   │   └── ...         # Other languages (Python, Typst, LaTeX, TypeScript, etc.)
 │   ├── default.nix     # Core configurations (globals, options, colorscheme)
 │   ├── lsp.nix         # LSP core engine config (plugins.lsp)
 │   └── treesitter.nix  # Treesitter core configuration
@@ -71,7 +71,7 @@ in
   rust = mkPreset [ "rust" ];
   # ...
   # Pre-composed preset package containing all language configurations
-  all = mkPreset [ "configs" "latex" "lua" "markdown" "nix" "python" "rust" "shells" "typst" ];
+  all = mkPreset [ "configs" "latex" "lua" "markdown" "nix" "python" "rust" "shells" "typescript" "typst" ];
 }
 ```
 
